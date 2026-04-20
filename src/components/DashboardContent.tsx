@@ -71,7 +71,7 @@ export default function DashboardContent({ issues, jiraBaseUrl, tab }: Props) {
       <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DeployedTicketsTable
           title="Tickets próximos a desplegar en producción"
-          emptyMessage='No hay tickets en "Listo para prod" pendientes.'
+          emptyMessage='No hay tickets pendientes de despliegue.'
           issues={readyToDeployTickets}
           jiraBaseUrl={jiraBaseUrl}
         />
