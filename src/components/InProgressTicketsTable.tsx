@@ -1,4 +1,4 @@
-import { JiraIssue } from '@/lib/jira'
+import { JiraIssue } from '@/lib/jira-utils'
 
 interface Props {
   issues: JiraIssue[]
@@ -14,51 +14,51 @@ export default function InProgressTicketsTable({ issues, jiraBaseUrl }: Props) {
 
   return (
     <section className="mb-8">
-      <h2 className="mb-4 text-lg font-semibold text-gray-100">
+      <h2 className="mb-4 text-lg font-semibold text-gray-700">
         Tickets en curso
-        <span className="ml-2 text-sm font-normal text-gray-500">({sorted.length})</span>
+        <span className="ml-2 text-sm font-normal text-gray-400">({sorted.length})</span>
       </h2>
 
       {sorted.length === 0 ? (
-        <p className="text-sm text-gray-600">No hay tickets en estado &quot;En curso&quot;.</p>
+        <p className="text-sm text-gray-400">No hay tickets en estado &quot;En curso&quot;.</p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-gray-800">
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-800 bg-gray-900 text-left text-xs uppercase tracking-wide text-gray-500">
+              <tr className="border-b border-gray-200 bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
                 <th className="px-4 py-3 font-medium">Key</th>
                 <th className="px-4 py-3 font-medium">Resumen</th>
                 <th className="px-4 py-3 font-medium">Módulo</th>
                 <th className="px-4 py-3 font-medium">Asignado</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-800 bg-gray-950">
+            <tbody className="divide-y divide-gray-100 bg-white">
               {sorted.map((issue) => {
                 const component = issue.fields.components[0]?.name ?? '—'
                 const assignee = issue.fields.assignee?.displayName ?? '—'
                 return (
-                  <tr key={issue.id} className="transition-colors hover:bg-gray-900">
+                  <tr key={issue.id} className="transition-colors hover:bg-gray-50">
                     <td className="whitespace-nowrap px-4 py-3">
                       <a
                         href={`${jiraBaseUrl}/browse/${issue.key}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-indigo-400 hover:text-indigo-300 hover:underline"
+                        className="font-mono text-indigo-600 hover:text-indigo-500 hover:underline"
                       >
                         {issue.key}
                       </a>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">{issue.fields.summary}</td>
+                    <td className="px-4 py-3 text-gray-700">{issue.fields.summary}</td>
                     <td className="whitespace-nowrap px-4 py-3">
                       {component !== '—' ? (
-                        <span className="rounded-full bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-300">
+                        <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700">
                           {component}
                         </span>
                       ) : (
-                        <span className="text-gray-600">—</span>
+                        <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-gray-400">{assignee}</td>
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-500">{assignee}</td>
                   </tr>
                 )
               })}

@@ -11,10 +11,10 @@ const PRIORITY_COLORS: Record<string, string> = {
 }
 
 const tooltipStyle = {
-  backgroundColor: '#1f2937',
-  border: '1px solid #374151',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e5e7eb',
   borderRadius: '8px',
-  color: '#f3f4f6',
+  color: '#111827',
 }
 
 interface Props {
@@ -33,14 +33,14 @@ export default function PriorityChart({ data }: Props) {
     .map(([name, value]) => ({ name, value }))
 
   return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 shadow-sm">
-      <h3 className="mb-4 text-base font-semibold text-gray-300">Tickets por Prioridad</h3>
+    <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+      <h3 className="mb-4 text-base font-semibold text-gray-700">Tickets por Prioridad</h3>
       <ResponsiveContainer width="100%" height={260}>
         <BarChart data={chartData} margin={{ top: 4, right: 16, left: 0, bottom: 4 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
-          <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={{ stroke: '#374151' }} tickLine={false} />
-          <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-          <Tooltip formatter={(v: number) => [v, 'Tickets']} contentStyle={tooltipStyle} cursor={{ fill: '#ffffff08' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+          <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={false} />
+          <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={false} tickLine={false} />
+          <Tooltip formatter={(v: number) => [v, 'Tickets']} contentStyle={tooltipStyle} cursor={{ fill: '#00000008' }} />
           <Bar dataKey="value" radius={[4, 4, 0, 0]}>
             {chartData.map((entry) => (
               <Cell key={entry.name} fill={PRIORITY_COLORS[entry.name] ?? '#6366f1'} />

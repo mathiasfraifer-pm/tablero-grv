@@ -10,10 +10,10 @@ const ALLOWED_STATUSES: Record<string, string> = {
 }
 
 const tooltipStyle = {
-  backgroundColor: '#1f2937',
-  border: '1px solid #374151',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e5e7eb',
   borderRadius: '8px',
-  color: '#f3f4f6',
+  color: '#111827',
 }
 
 interface Props {
@@ -26,8 +26,8 @@ export default function StatusChart({ data }: Props) {
     .map(([name, value]) => ({ name, value }))
 
   return (
-    <div className="rounded-xl border border-gray-800 bg-gray-900 p-5 shadow-sm">
-      <h3 className="mb-4 text-base font-semibold text-gray-300">Tickets por Estado</h3>
+    <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+      <h3 className="mb-4 text-base font-semibold text-gray-700">Tickets por Estado</h3>
       <ResponsiveContainer width="100%" height={260}>
         <PieChart>
           <Pie
@@ -40,14 +40,11 @@ export default function StatusChart({ data }: Props) {
             dataKey="value"
           >
             {chartData.map((entry) => (
-              <Cell
-                key={entry.name}
-                fill={ALLOWED_STATUSES[entry.name]}
-              />
+              <Cell key={entry.name} fill={ALLOWED_STATUSES[entry.name]} />
             ))}
           </Pie>
           <Tooltip formatter={(value: number) => [value, 'Tickets']} contentStyle={tooltipStyle} />
-          <Legend wrapperStyle={{ color: '#9ca3af', fontSize: 12 }} />
+          <Legend wrapperStyle={{ color: '#6b7280', fontSize: 12 }} />
         </PieChart>
       </ResponsiveContainer>
     </div>

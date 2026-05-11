@@ -18,8 +18,8 @@ export default async function HomePage() {
   if (error) {
     return (
       <main className="flex min-h-screen items-center justify-center p-8">
-        <div className="rounded-xl border border-red-900 bg-red-950 p-6 text-red-400 shadow">
-          <p className="font-semibold text-red-300">Error al conectar con Jira</p>
+        <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-red-600 shadow">
+          <p className="font-semibold text-red-700">Error al conectar con Jira</p>
           <p className="mt-1 text-sm">{error}</p>
           <p className="mt-3 text-xs text-red-600">
             Verifica las variables de entorno: JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN, JIRA_PROJECT_KEY

@@ -24,12 +24,12 @@ export default function DashboardContent({ issues, jiraBaseUrl, tab }: Props) {
 
   const deployedTickets = issues.filter(
     (i) =>
-      i.fields.status.name === 'Listo para prod' &&
+      i.fields.status.name === 'LISTO PARA PROD' &&
       i.fields.assignee?.displayName?.toLowerCase() === 'mathias fraifer',
   )
   const readyToDeployTickets = issues.filter(
     (i) =>
-      i.fields.status.name === 'Listo para prod' &&
+      i.fields.status.name === 'LISTO PARA PROD' &&
       i.fields.assignee?.displayName?.toLowerCase() !== 'mathias fraifer',
   )
   const readyToDeployCount = readyToDeployTickets.length
@@ -52,6 +52,25 @@ export default function DashboardContent({ issues, jiraBaseUrl, tab }: Props) {
         acc[comp] = (acc[comp] ?? 0) + 1
         return acc
       }, {}),
+  ).map(([name, errors]) => ({ name, errors }))
+
+  const inCourseByModule = Object.entries(
+    inCourseTickets.reduce<Record<string, number>>((acc, i) => {
+      const comp = i.fields.components[0]?.name
+      if (!comp) return acc
+      acc[comp] = (acc[comp] ?? 0) + 1
+      return acc
+    }, {}),
+  ).map(([name, errors]) => ({ name, errors }))
+
+  const readyToDeployAllTickets = issues.filter((i) => i.fields.status.name === 'LISTO PARA PROD')
+  const deployByModule = Object.entries(
+    readyToDeployAllTickets.reduce<Record<string, number>>((acc, i) => {
+      const comp = i.fields.components[0]?.name
+      if (!comp) return acc
+      acc[comp] = (acc[comp] ?? 0) + 1
+      return acc
+    }, {}),
   ).map(([name, errors]) => ({ name, errors }))
 
   return (
@@ -77,14 +96,37 @@ export default function DashboardContent({ issues, jiraBaseUrl, tab }: Props) {
         />
         <DeployedTicketsTable
           title="Tickets resueltos en el último deploy"
-          emptyMessage='No hay tickets en "Listo para prod".'
+          emptyMessage='No hay tickets en "LISTO PARA PROD".'
           issues={deployedTickets}
           jiraBaseUrl={jiraBaseUrl}
         />
       </div>
 
+      {/* Módulos en curso */}
+      <ModuleHealthGrid
+        title="Módulos con tickets en curso"
+        emptyMessage="No hay tickets en curso con módulo asignado."
+        modules={inCourseByModule}
+        threshold={1}
+        thresholdColor="blue"
+      />
+
+      {/* Módulos próximo despliegue */}
+      <ModuleHealthGrid
+        title="Módulos involucrados en los últimos despliegues"
+        emptyMessage="No hay tickets en 'Listo para prod' con módulo asignado."
+        modules={deployByModule}
+        threshold={1}
+        thresholdColor="green"
+      />
+
       {/* Module health */}
-      <ModuleHealthGrid modules={moduleHealth} thresholdColor={tab === 'evoluciones' ? 'green' : 'red'} />
+      <ModuleHealthGrid
+        title="Salud de módulos"
+        emptyMessage="No hay tickets pendientes con módulo asignado."
+        modules={moduleHealth}
+        thresholdColor={tab === 'evoluciones' ? 'green' : 'red'}
+      />
 
       {/* Charts */}
       <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
